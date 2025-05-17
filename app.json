@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "Nero_development",
+    "name": "Nero",
     "slug": "Nero_development",
-    "version": "1.0.0",
+    "version": "8.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/app_icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -12,30 +12,38 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "nero.indert.com",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/logo1.png",
         "backgroundColor": "#ffffff"
       }
     },
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/app_icon.png"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
+          "image": "./assets/images/logo1.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
-      ]
+      ],
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "68c89ab6-6179-4b74-94df-9995fc6c072e"
+      }
     }
   }
 }
