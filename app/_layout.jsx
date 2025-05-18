@@ -12,14 +12,13 @@ import 'react-native-reanimated';
 
 function AppInitializer({ children }) {
 
-  useEffect(() => {
-    SplashScreen.preventAutoHideAsync();
-  }, []);
-
   const [userData, setUserData] = useState(null);
   const [appReady, setAppReady] = useState(false);
 
   useEffect(() => {
+
+    SplashScreen.preventAutoHideAsync();
+
     const fetchAllData = async () => {
 
       try {
@@ -51,6 +50,11 @@ function AppInitializer({ children }) {
         if (stored) setUserData(JSON.parse(stored));
       } finally {
         setAppReady(true);
+        try {
+          await SplashScreen.hideAsync();
+        } catch (e) {
+          console.warn('Failed to hide splash screen:', e);
+        }
       }
     };
 
