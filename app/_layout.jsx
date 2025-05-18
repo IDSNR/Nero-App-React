@@ -5,19 +5,19 @@ import { ThemeProvider } from "../context/ThemeContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from 'axios';
 import { Stack } from 'expo-router';
-import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import 'react-native-reanimated';
 
-SplashScreen.preventAutoHideAsync();
+
 
 function AppInitializer({ children }) {
+
+  useEffect(() => {
+    SplashScreen.preventAutoHideAsync();
+  }, []);
+
   const [userData, setUserData] = useState(null);
   const [appReady, setAppReady] = useState(false);
-
-  const [fontsLoaded] = useFonts({
-    SpaceMono: require('../assets/fonts/Akira Expanded Demo.otf'),
-  });
 
   useEffect(() => {
     const fetchAllData = async () => {
@@ -41,6 +41,8 @@ function AppInitializer({ children }) {
           await AsyncStorage.setItem('token', response.data.auth.token);
         }
 
+        console.log(response.data);
+
         setUserData(response.data);
         await AsyncStorage.setItem('userData', JSON.stringify(response.data));
       } catch (e) {
@@ -49,16 +51,13 @@ function AppInitializer({ children }) {
         if (stored) setUserData(JSON.parse(stored));
       } finally {
         setAppReady(true);
-        if (fontsLoaded) {
-          SplashScreen.hideAsync();
-        }
       }
     };
 
     fetchAllData();
-  }, [fontsLoaded]);
+  }, []);
 
-  if (!appReady || !fontsLoaded) {
+  if (!appReady) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <ActivityIndicator size="large" />
