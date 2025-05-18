@@ -1,27 +1,27 @@
-import { View, Text, TextInput, Pressable, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { useState, useContext, useEffect } from "react"
+import { View, Text, TextInput, Pressable, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useState, useContext, useEffect } from "react";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Entypo from '@expo/vector-icons/Entypo';
 import AntDesign from '@expo/vector-icons/AntDesign';
-import { ThemeContext } from "@/context/ThemeContext"
-import { useSession } from "@/context/SessionContext"
+import { ThemeContext } from "@/context/ThemeContext";
+import { useSession } from "@/context/SessionContext";
 import { StatusBar } from 'expo-status-bar';
 
-import { Inter_500Medium, Inter_700Bold, useFonts } from "@expo-google-fonts/inter"
-import AsyncStorage from "@react-native-async-storage/async-storage"
-import { useRouter } from "expo-router"
+import { Inter_500Medium, Inter_700Bold, useFonts } from "@expo-google-fonts/inter";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRouter } from "expo-router";
 
 export default function MainScreenGoals() {
 
-    const { colorScheme, setColorScheme, theme } = useContext(ThemeContext)
+    const { colorScheme, setColorScheme, theme } = useContext(ThemeContext);
     const { userData, setUserData, goalCompleted, goalTookIn } = useSession();
 
-    const router = useRouter()
+    const router = useRouter();
 
 
     const [indexNow, setIndexNow] = useState(0);
-    const [hasGoal, setHasGoal] = useState(userData["goals"]["alreadyHasGoal"])
+    const [hasGoal, setHasGoal] = useState(userData["goals"]["alreadyHasGoal"]);
     const mainGoal = userData["goals"]["goals"][indexNow];
     var changeableUserData = userData;
     var showArrow = false;
@@ -32,16 +32,16 @@ export default function MainScreenGoals() {
     const [fontsLoaded, error] = useFonts({
         Inter_500Medium,
         Inter_700Bold
-    }) 
+    });
 
 
     if (!fontsLoaded && !error) {
-        return null
+        return null;
     }
 
     // storage-changing functions
 
-    const styles = createStyleSheet(theme, colorScheme)
+    const styles = createStyleSheet(theme, colorScheme);
 
     // simple functions
 
@@ -50,7 +50,7 @@ export default function MainScreenGoals() {
         <View style={styles.container}>
             {/* Profile Picture */}
             <Pressable onPress={() => {
-                router.push('/account')
+                router.push('/account');
             }}>
                 <Ionicons name="person-circle" size={24} color={theme.background} />
             </Pressable>
@@ -65,14 +65,14 @@ export default function MainScreenGoals() {
             </Text>
 
             <Pressable onPress={() => {
-                router.push('/settings')
+                router.push('/settings');
             }}>
             <Ionicons name="settings-outline" size={28} color={theme.background} />
             </Pressable>
         </View>
         { indexNow != 0 && (
           <Pressable onPress={() => {
-            setIndexNow(prev => prev - 1)
+            setIndexNow(prev => prev - 1);
           }} style={{marginTop: 20, marginLeft: 20}}>
             <AntDesign name="arrowleft" size={30} color={theme.text} />
           </Pressable>
@@ -100,14 +100,14 @@ export default function MainScreenGoals() {
             marginTop: 50
             }}>
               <Pressable onPress={() => {
-                setHasGoal(true)
+                setHasGoal(true);
                 const newUserData = {
                   ...userData,
                   "goals": {
                     ...userData.goals,
                     "alreadyHasGoal": true
                   }
-                }
+                };
                 setUserData(newUserData);
                 goalTookIn(mainGoal);
               }}>
@@ -116,7 +116,7 @@ export default function MainScreenGoals() {
               <Text style={{marginLeft: 40, marginRight: 40}} />
               <Pressable onPress={() => {
                 if (indexNow < userData["goals"]["goals"].length - 1){ 
-                  setIndexNow(prev => prev + 1)
+                  setIndexNow(prev => prev + 1);
                 }
               }}>
                 <Entypo name="circle-with-cross" size={38} color="red" />
@@ -124,8 +124,8 @@ export default function MainScreenGoals() {
             </View>) : 
             <View style={{alignItems: 'center', marginTop: 30}}>  
                 <Pressable style={{backgroundColor: theme.text, width: '20%', alignItems: 'center', padding: 10, borderRadius: 15}} onPress={() => {
-                  goalCompleted(mainGoal)
-                  setHasGoal(false)
+                  goalCompleted(mainGoal);
+                  setHasGoal(false);
                   const newGoals = userData["goals"]["goals"].filter((_, i) => i !== indexNow);
                   const newUserData = {
                     ...userData,
@@ -135,7 +135,7 @@ export default function MainScreenGoals() {
                       goals: newGoals,
                     }
                   };
-                  setUserData(newUserData)
+                  setUserData(newUserData);
                 }}>
                   <Text style={{color: 'white', fontSize: 20, fontWeight: 'bold'}}>Done!</Text>
                 </Pressable>

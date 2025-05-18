@@ -1,41 +1,41 @@
-import { View, Text, TextInput, Pressable, StyleSheet, Switch, FlatList, TouchableOpacity, Image } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { useState, useContext, useEffect } from "react"
+import { View, Text, TextInput, Pressable, StyleSheet, Switch, FlatList, TouchableOpacity, Image } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useState, useContext, useEffect } from "react";
 import AntDesign from '@expo/vector-icons/AntDesign';
-import { ThemeContext } from "@/context/ThemeContext"
+import { ThemeContext } from "@/context/ThemeContext";
 import axios from 'axios';
 import { BackHandler, Platform } from 'react-native';
-import { useSession } from "@/context/SessionContext"
-import { Inter_500Medium, Inter_700Bold, useFonts } from "@expo-google-fonts/inter"
-import AsyncStorage from "@react-native-async-storage/async-storage"
-import { useRouter } from "expo-router"
+import { useSession } from "@/context/SessionContext";
+import { Inter_500Medium, Inter_700Bold, useFonts } from "@expo-google-fonts/inter";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRouter } from "expo-router";
 
 export default function Settings() {
 
 
-    const { colorScheme, setColorScheme, theme } = useContext(ThemeContext)
+    const { colorScheme, setColorScheme, theme } = useContext(ThemeContext);
     const [isEnabled, setIsEnabled] = useState(colorScheme === 'dark');
-    const router = useRouter()
+    const router = useRouter();
 
-    const { setUserData, accountDeletion } = useSession()
+    const { setUserData, accountDeletion } = useSession();
 
 
     const [fontsLoaded, error] = useFonts({
         Inter_500Medium,
         Inter_700Bold
-    }) 
+    });
 
 
     if (!fontsLoaded && !error) {
-        return null
+        return null;
     }
 
-    var mode = colorScheme != 'dark' ? 'Light' : 'Dark'
-    var modeBool = colorScheme != 'dark'
+    var mode = colorScheme != 'dark' ? 'Light' : 'Dark';
+    var modeBool = colorScheme != 'dark';
 
     // storage-changing functions
 
-    const styles = createStyleSheet(theme, colorScheme)
+    const styles = createStyleSheet(theme, colorScheme);
 
     // simple functions
 
@@ -45,7 +45,7 @@ export default function Settings() {
         <View style={styles.container}>
             {/* Profile Picture */}
             <Pressable onPress={() => {
-                router.push('/')
+                router.push('/');
             }}>
                 <AntDesign name="arrowleft" size={24} color={theme.background} />
             </Pressable>
@@ -71,8 +71,8 @@ export default function Settings() {
                 thumbColor={isEnabled ? 'white' : 'black'}
                 ios_backgroundColor="#3e3e3e"
                 onValueChange={() => {
-                    setColorScheme(colorScheme === 'light' ? 'dark' : 'light')
-                    setIsEnabled(!isEnabled)
+                    setColorScheme(colorScheme === 'light' ? 'dark' : 'light');
+                    setIsEnabled(!isEnabled);
                 }}
                 value={isEnabled}
             >
@@ -91,7 +91,7 @@ export default function Settings() {
             </Pressable>
         </View>
     </SafeAreaView>
-    )
+    );
 
 
 } 

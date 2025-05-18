@@ -1,41 +1,41 @@
-import { View, Text, TextInput, Pressable, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import React, { useState, useContext, useEffect } from "react"
+import { View, Text, TextInput, Pressable, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import React, { useState, useContext, useEffect } from "react";
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { ThemeContext } from "@/context/ThemeContext"
+import { ThemeContext } from "@/context/ThemeContext";
 import AntDesign from '@expo/vector-icons/AntDesign';
-import { useSession } from "@/context/SessionContext"
-import Animated, { LinearTransition } from "react-native-reanimated"
-import { Inter_500Medium, Inter_700Bold, useFonts } from "@expo-google-fonts/inter"
-import AsyncStorage from "@react-native-async-storage/async-storage"
-import { useRouter } from "expo-router"
+import { useSession } from "@/context/SessionContext";
+import Animated, { LinearTransition } from "react-native-reanimated";
+import { Inter_500Medium, Inter_700Bold, useFonts } from "@expo-google-fonts/inter";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRouter } from "expo-router";
 
 export default function MainScreenGoals() {
 
 
-    const { colorScheme, setColorScheme, theme } = useContext(ThemeContext)
-    const { userData, setUserData, chatbotChatting } = useSession()
+    const { colorScheme, setColorScheme, theme } = useContext(ThemeContext);
+    const { userData, setUserData, chatbotChatting } = useSession();
 
-    const router = useRouter()
+    const router = useRouter();
 
-    const [text, setText] = useState('')
+    const [text, setText] = useState('');
     const conversation = userData?.conversation?.data || [];
 
 
     const [fontsLoaded, error] = useFonts({
         Inter_500Medium,
         Inter_700Bold
-    }) 
+    });
 
 
     if (!fontsLoaded && !error) {
-        return null
+        return null;
     }
 
     // storage-changing functions
     
 
-    const styles = createStyleSheet(theme, colorScheme)
+    const styles = createStyleSheet(theme, colorScheme);
 
     const renderItem = ({ item, index }) => (
         <View>
@@ -49,7 +49,7 @@ export default function MainScreenGoals() {
                 maxWidth: '70%'
             }}>{item}</Text>
         </View>
-    )
+    );
 
     // simple functions
 
@@ -58,7 +58,7 @@ export default function MainScreenGoals() {
         <View style={styles.container}>
             {/* Profile Picture */}
             <Pressable onPress={() => {
-                router.push('/account')
+                router.push('/account');
             }}>
                 <Ionicons name="person-circle" size={24} color={theme.background} />
             </Pressable>
@@ -73,7 +73,7 @@ export default function MainScreenGoals() {
             </Text>
 
             <Pressable onPress={() => {
-                router.push('/settings')
+                router.push('/settings');
             }}>
             <Ionicons name="settings-outline" size={28} color={theme.background} />
             </Pressable>
@@ -121,7 +121,7 @@ export default function MainScreenGoals() {
             </View>
         </View>
     </SafeAreaView>
-    )
+    );
 
 
 } 

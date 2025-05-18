@@ -3,8 +3,8 @@ import axios from 'axios'
 
 const SessionContext = createContext();
 
-export function SessionProvider({ children }) {
-  const [userData, setUserData] = useState(null);
+export function SessionProvider({ children, initialData }) {
+  const [userData, setUserData] = useState(initialData ?? null);
 
   const domain = 'https://neroapi.ignorelist.com/'
 
@@ -13,11 +13,16 @@ export function SessionProvider({ children }) {
   };
 
   const goalTookIn = async (data) => {
+    console.log("I think it´s working")
     // data - {'goal': '', 'desc': ''}
+    try {
     await axios.post(`${domain}took_goal_in`, {
       'auth': userData.auth,
       'data': data
     })
+    } catch(e) {
+      console.log(`Error in goalTookIn: ${e}`)
+    }
   }
 
   const goalCompleted = async (data) => {

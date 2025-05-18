@@ -1,112 +1,89 @@
-import { View, Text, Pressable } from 'react-native'; 
-import { ThemeProvider } from "../context/ThemeContext"
-import { SessionProvider, useSession } from '../context/SessionContext';
-import AsyncStorage from "@react-native-async-storage/async-storage"
-import axios from 'axios'
-
-import { useFonts } from 'expo-font';
+import { useState, useEffect } from 'react';
+import { View, ActivityIndicator } from 'react-native';
+import { SessionProvider } from '../context/SessionContext';
+import { ThemeProvider } from "../context/ThemeContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from 'axios';
 import { Stack } from 'expo-router';
+import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
 import 'react-native-reanimated';
 
-import { useColorScheme } from '@/hooks/useColorScheme';
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
-function RootContent() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
+function AppInitializer({ children }) {
+  const [userData, setUserData] = useState(null);
+  const [appReady, setAppReady] = useState(false);
+
+  const [fontsLoaded] = useFonts({
     SpaceMono: require('../assets/fonts/Akira Expanded Demo.otf'),
   });
 
-  const { setUserData } = useSession();
-
   useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
+    const fetchAllData = async () => {
 
-  const fetchAllData = async () => {
-  
-    const id = await AsyncStorage.getItem('id');
-    const token = await AsyncStorage.getItem('token');
-    const hasAuth = !!token && !!id;
+      try {
+        const id = await AsyncStorage.getItem('id');
+        const token = await AsyncStorage.getItem('token');
+        const hasAuth = !!token && !!id;
 
-    console.log(id);
-    console.log(hasAuth)
-    console.log(token);
+        let response;
 
-    try {
-      
-      if (hasAuth) {
-        try {
+        if (hasAuth) {
+          response = await axios.post('https://neroapi.ignorelist.com/allDataWithAccount', {
+            auth: { id, token }
+          });
 
-          const response = await axios.post('https://neroapi.ignorelist.com/allDataWithAccount', { auth: { id, token } });
           await AsyncStorage.setItem('token', `${response.data.auth.token}`);
-
-          setUserData(response.data);
-          await AsyncStorage.setItem('userData', JSON.stringify(response.data));
-
-        } catch(e) {
-          console.log('Error auth')
-          console.log(e)
+        } else {
+          response = await axios.get('https://neroapi.ignorelist.com/allDataNoAccount');
+          await AsyncStorage.setItem('id', response.data.auth.id.toString());
+          await AsyncStorage.setItem('token', response.data.auth.token);
         }
-        
-        
-      } else {
-        try {
 
-          
-        const response = await axios.get('https://neroapi.ignorelist.com/allDataNoAccount')
-
-        await AsyncStorage.setItem('id', response.data.auth.id.toString())
-        await AsyncStorage.setItem('token', response.data.auth.token)
-
-        setUserData(response.data)
-        await AsyncStorage.setItem('userData', JSON.parse(response.data))
-
-        } catch(e) {
-          console.log('Error no auth')
-          console.log(e)
+        setUserData(response.data);
+        await AsyncStorage.setItem('userData', JSON.stringify(response.data));
+      } catch (e) {
+        console.error('Failed to fetch user data:', e);
+        const stored = await AsyncStorage.getItem('userData');
+        if (stored) setUserData(JSON.parse(stored));
+      } finally {
+        setAppReady(true);
+        if (fontsLoaded) {
+          SplashScreen.hideAsync();
         }
-        
       }
+    };
 
-
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      console.log('Converting to async data');
-      setUserData(AsyncStorage.getItem('userData'));
-    }
-  };
-
-  useEffect(() => {
     fetchAllData();
-  }, []);
+  }, [fontsLoaded]);
 
-  if (!loaded) {
-    return null;
+  if (!appReady || !fontsLoaded) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
   }
 
   return (
-    <Stack>
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen name="+not-found" />
-      <Stack.Screen name="settings" options={{ headerShown: false }} />
-      <Stack.Screen name="account" options={{ headerShown: false }} />
-    </Stack>
+    <SessionProvider initialData={userData}>
+      {children}
+    </SessionProvider>
   );
 }
 
 export default function RootLayout() {
   return (
-    <SessionProvider>
+    <AppInitializer>
       <ThemeProvider>
-        <RootContent />
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="+not-found" />
+          <Stack.Screen name="settings" options={{ headerShown: false }} />
+          <Stack.Screen name="account" options={{ headerShown: false }} />
+        </Stack>
       </ThemeProvider>
-    </SessionProvider>
+    </AppInitializer>
   );
 }

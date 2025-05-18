@@ -1,50 +1,49 @@
-import { View, Text, TextInput, Pressable, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { useState, useContext, useEffect } from "react"
+import { View, Text, TextInput, Pressable, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useState, useContext, useEffect } from "react";
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { ThemeContext } from "@/context/ThemeContext"
+import { ThemeContext } from "@/context/ThemeContext";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Inter_500Medium, Inter_700Bold, useFonts } from "@expo-google-fonts/inter"
-import AsyncStorage from "@react-native-async-storage/async-storage"
-import { useRouter } from "expo-router"
-import { useSession } from "@/context/SessionContext"
+import { Inter_500Medium, Inter_700Bold, useFonts } from "@expo-google-fonts/inter";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRouter } from "expo-router";
+import { useSession } from "@/context/SessionContext";
 
 export default function MainScreenGoals() {
 
     const renderItem = (item) => {
-        console.log(item);
-        return <View style={styles.singleItem}>
+        return (<View style={styles.singleItem}>
             <Text style={styles.defaultText}>
                 {item.item["date"]}
             </Text>
             <Text style={styles.defaultText}>
                 {item.item["goals"]} goals completed
             </Text>
-        </View>
-    }
+        </View>);
+    };
 
 
-    const { colorScheme, setColorScheme, theme } = useContext(ThemeContext)
+    const { colorScheme, setColorScheme, theme } = useContext(ThemeContext);
 
-    const router = useRouter()
+    const router = useRouter();
 
-    const { userData } = useSession()
+    const { userData } = useSession();
     
-    const scoreboardData = userData.scoreboard
+    const scoreboardData = userData.scoreboard;
 
     const [fontsLoaded, error] = useFonts({
         Inter_500Medium,
         Inter_700Bold
-    }) 
+    });
 
 
     if (!fontsLoaded && !error) {
-        return null
+        return null;
     }
 
     // storage-changing functions
 
-    const styles = createStyleSheet(theme, colorScheme)
+    const styles = createStyleSheet(theme, colorScheme);
 
     // simple functions
 
@@ -53,7 +52,7 @@ export default function MainScreenGoals() {
         <View style={styles.container}>
             {/* Profile Picture */}
             <Pressable onPress={() => {
-                router.push('/account')
+                router.push('/account');
             }}>
                 <Ionicons name="person-circle" size={24} color={theme.background} />
             </Pressable>
@@ -68,7 +67,7 @@ export default function MainScreenGoals() {
             </Text>
 
             <Pressable onPress={() => {
-                router.push('/settings')
+                router.push('/settings');
             }}>
             <Ionicons name="settings-outline" size={28} color={theme.background} />
             </Pressable>
@@ -122,7 +121,7 @@ export default function MainScreenGoals() {
 
         </View>
     </SafeAreaView>
-    )
+    );
 
 
 } 

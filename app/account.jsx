@@ -1,33 +1,33 @@
-import { View, Text, TextInput, Pressable, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { useState, useContext, useEffect } from "react"
-import { ThemeContext } from "@/context/ThemeContext"
+import { View, Text, TextInput, Pressable, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useState, useContext, useEffect } from "react";
+import { ThemeContext } from "@/context/ThemeContext";
 import AntDesign from '@expo/vector-icons/AntDesign';
-import { Inter_500Medium, Inter_700Bold, useFonts } from "@expo-google-fonts/inter"
-import AsyncStorage from "@react-native-async-storage/async-storage"
-import { useRouter } from "expo-router"
+import { Inter_500Medium, Inter_700Bold, useFonts } from "@expo-google-fonts/inter";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRouter } from "expo-router";
 
 export default function MainScreenGoals() {
 
 
-    const { colorScheme, setColorScheme, theme } = useContext(ThemeContext)
+    const { colorScheme, setColorScheme, theme } = useContext(ThemeContext);
 
-    const router = useRouter()
+    const router = useRouter();
 
 
     const [fontsLoaded, error] = useFonts({
         Inter_500Medium,
         Inter_700Bold
-    }) 
+    });
 
 
     if (!fontsLoaded && !error) {
-        return null
+        return null;
     }
 
     // storage-changing functions
 
-    const styles = createStyleSheet(theme, colorScheme)
+    const styles = createStyleSheet(theme, colorScheme);
 
     // simple functions
 
@@ -36,7 +36,7 @@ export default function MainScreenGoals() {
         <View style={styles.container}>
             {/* Profile Picture */}
             <Pressable onPress={() => {
-                router.push('/')
+                router.push('/');
             }}>
                 <AntDesign name="arrowleft" size={24} color={theme.background} />
             </Pressable>
@@ -56,7 +56,7 @@ export default function MainScreenGoals() {
             <Text style={styles.mainText}>No profile yet</Text>
         </View>
     </SafeAreaView>
-    )
+    );
 
 
 } 

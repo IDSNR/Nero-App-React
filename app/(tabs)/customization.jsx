@@ -1,21 +1,21 @@
-import { View, Text, TextInput, Pressable, StyleSheet, FlatList, TouchableOpacity, Image, ScrollView } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { useState, useContext, useEffect } from "react"
+import { View, Text, TextInput, Pressable, StyleSheet, FlatList, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useState, useContext, useEffect } from "react";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Entypo from '@expo/vector-icons/Entypo';
 import AntDesign from '@expo/vector-icons/AntDesign';
-import { ThemeContext } from "@/context/ThemeContext"
-import { useSession } from "@/context/SessionContext"
-import { Inter_500Medium, Inter_700Bold, useFonts } from "@expo-google-fonts/inter"
-import AsyncStorage from "@react-native-async-storage/async-storage"
-import { useRouter } from "expo-router"
+import { ThemeContext } from "@/context/ThemeContext";
+import { useSession } from "@/context/SessionContext";
+import { Inter_500Medium, Inter_700Bold, useFonts } from "@expo-google-fonts/inter";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRouter } from "expo-router";
 
 export default function MainScreenGoals() {
 
 
-    const { colorScheme, setColorScheme, theme } = useContext(ThemeContext)
+    const { colorScheme, setColorScheme, theme } = useContext(ThemeContext);
 
-    const router = useRouter()
+    const router = useRouter();
 
     const { userData, setUserData, customizationPost } = useSession();
 
@@ -30,16 +30,16 @@ export default function MainScreenGoals() {
     const [fontsLoaded, error] = useFonts({
         Inter_500Medium,
         Inter_700Bold
-    }) 
+    });
 
 
     if (!fontsLoaded && !error) {
-        return null
+        return null;
     }
 
     // storage-changing functions
 
-    const styles = createStyleSheet(theme, colorScheme)
+    const styles = createStyleSheet(theme, colorScheme);
 
     // simple functions
 
@@ -75,7 +75,7 @@ export default function MainScreenGoals() {
                     <Entypo name="circle-with-cross" size={24} color="red" />
                 </Pressable>
             </View>
-    )
+    );
 
     const renderItemPersonality = ({ item, index }) => (
         <View style={[styles.row, styles.node]}>
@@ -104,7 +104,7 @@ export default function MainScreenGoals() {
                     <Entypo name="circle-with-cross" size={24} color="red" />
                 </Pressable>
             </View>
-    )
+    );
 
     const renderItemSkills = ({ item, index }) => (
         <View style={[styles.row, styles.node]}>
@@ -133,7 +133,7 @@ export default function MainScreenGoals() {
                     <Entypo name="circle-with-cross" size={24} color="red" />
                 </Pressable>
             </View>
-    )
+    );
 
     const renderItemGoals = ({ item, index }) => (
         <View style={[styles.row, styles.node]}>
@@ -162,14 +162,14 @@ export default function MainScreenGoals() {
                     <Entypo name="circle-with-cross" size={24} color="red" />
                 </Pressable>
             </View>
-    )
+    );
 
     return (
         <SafeAreaView style={styles.background}>
         <View style={styles.container}>
             {/* Profile Picture */}
             <Pressable onPress={() => {
-                router.push('/account')
+                router.push('/account');
             }}>
                 <Ionicons name="person-circle" size={24} color={theme.background} />
             </Pressable>
@@ -184,7 +184,7 @@ export default function MainScreenGoals() {
             </Text>
 
             <Pressable onPress={() => {
-                router.push('/settings')
+                router.push('/settings');
             }}>
             <Ionicons name="settings-outline" size={28} color={theme.background} />
             </Pressable>
@@ -214,17 +214,17 @@ export default function MainScreenGoals() {
 
                     </TextInput>
                     <Pressable onPress={() => {
-                        setText('')
-                        var customizationsNew = [...customization["goals"], text]
+                        setText('');
+                        var customizationsNew = [...customization["goals"], text];
                     const newUserData = {
                         ...userData,
                         "customization": {
                             ...customization,
                             "goals":  customizationsNew
                         }
-                    }
-                    setUserData(newUserData)
-                    customizationPost()
+                    };
+                    setUserData(newUserData);
+                    customizationPost();
                     }}>
                         <Entypo name="arrow-with-circle-up" size={36} color={colorScheme !== 'dark' ? "black" : "white"} style={styles.buttonSend} />
                     </Pressable>
@@ -254,17 +254,17 @@ export default function MainScreenGoals() {
 
                     </TextInput>
                     <Pressable onPress={() => {
-                        setTextSkills('')
-                        var customizationsNew = [...customization["skills"], textSkills]
+                        setTextSkills('');
+                        var customizationsNew = [...customization["skills"], textSkills];
                     const newUserData = {
                         ...userData,
                         "customization": {
                             ...customization,
                             "skills":  customizationsNew
                         }
-                    }
-                    setUserData(newUserData)
-                    customizationPost()
+                    };
+                    setUserData(newUserData);
+                    customizationPost();
                     }}>
                         <Entypo name="arrow-with-circle-up" size={36} color={colorScheme !== 'dark' ? "black" : "white"} style={styles.buttonSend} />
                     </Pressable>
@@ -294,17 +294,17 @@ export default function MainScreenGoals() {
 
                     </TextInput>
                     <Pressable onPress={() => {
-                        setTextPersonality('')
-                        var customizationsNew = [...customization["personality"], textPersonality]
+                        setTextPersonality('');
+                        var customizationsNew = [...customization["personality"], textPersonality];
                     const newUserData = {
                         ...userData,
                         "customization": {
                             ...customization,
                             "personality":  customizationsNew
                         }
-                    }
-                    setUserData(newUserData)
-                    customizationPost()
+                    };
+                    setUserData(newUserData);
+                    customizationPost();
                     }}>
                         <Entypo name="arrow-with-circle-up" size={36} color={colorScheme !== 'dark' ? "black" : "white"} style={styles.buttonSend} />
                     </Pressable>
@@ -334,17 +334,17 @@ export default function MainScreenGoals() {
 
                     </TextInput>
                     <Pressable onPress={() => {
-                        setTextTraumas('')
-                        var customizationsNew = [...customization["traumas"], textTraumas]
+                        setTextTraumas('');
+                        var customizationsNew = [...customization["traumas"], textTraumas];
                     const newUserData = {
                         ...userData,
                         "customization": {
                             ...customization,
                             "traumas":  customizationsNew
                         }
-                    }
-                    setUserData(newUserData)
-                    customizationPost()
+                    };
+                    setUserData(newUserData);
+                    customizationPost();
                     }}>
                         <Entypo name="arrow-with-circle-up" size={36} color={colorScheme !== 'dark' ? "black" : "white"} style={styles.buttonSend} />
                     </Pressable>

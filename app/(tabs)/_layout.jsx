@@ -2,24 +2,24 @@ import { Tabs } from 'expo-router';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import React from 'react';
 import { Platform, View, Text } from 'react-native';
-import { ThemeContext } from "@/context/ThemeContext"
-import { useContext } from "react"
+import { ThemeContext } from "@/context/ThemeContext";
+import { useContext } from "react";
 import Entypo from '@expo/vector-icons/Entypo';
 
 import { HapticTab } from '@/components/HapticTab';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import TabBarBackground from '@/components/ui/TabBarBackground';
 import { Colors } from '@/constants/Colors';
-import { Inter_500Medium, Inter_700Bold, useFonts } from "@expo-google-fonts/inter"
+import { Inter_500Medium, Inter_700Bold, useFonts } from "@expo-google-fonts/inter";
 
 export default function TabLayout() {
 
-  const { colorScheme, setColorScheme, theme } = useContext(ThemeContext)
+  const { colorScheme, setColorScheme, theme } = useContext(ThemeContext);
 
   const [fontsLoaded, error] = useFonts({
     Inter_500Medium,
     Inter_700Bold
-  }) 
+  });
 
   if (!fontsLoaded && !error) {
     return <View><Text>Loading...</Text></View>; // or use SplashScreen
