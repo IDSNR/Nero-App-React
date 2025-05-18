@@ -137,7 +137,7 @@ export default function MainScreenGoals() {
                   };
                   setUserData(newUserData);
                 }}>
-                  <Text style={{color: 'white', fontSize: 20, fontWeight: 'bold'}}>Done!</Text>
+                  <Text style={{color: theme.background, fontSize: 20, fontWeight: 'bold'}}>Done!</Text>
                 </Pressable>
             </View>}
             <View style={{marginTop: 90, marginRight: 50, marginLeft: 30}}>
